@@ -53,7 +53,7 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
                             0 0 13px #E27739"
                 textTransform="uppercase"
                 color="#E27739"
-                fontFamily="Edu SA Beginner"
+                fontFamily="IM Fell English"
                 fontWeight="bold"
               >
                 {displayName}
@@ -66,7 +66,7 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
                             0 0 13px #E27739"
                   textTransform="uppercase"
                   color="#E27739"
-                  fontFamily="Edu SA Beginner"
+                  fontFamily="IM Fell English"
                   fontWeight="bold"
                 >
                   {
@@ -113,11 +113,12 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
                     ) : (
                       <Text
                         key={index}
-                        fontFamily="Edu SA Beginner"
+                        fontFamily="IM Fell English"
                         fontWeight="extrabold"
                         fontSize="xl"
                         wordBreak="break-all"
                         textShadow="md"
+                        color="rgb(188, 170, 142)"
                       >
                         {text}
                       </Text>
