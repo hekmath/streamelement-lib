@@ -31,20 +31,26 @@ export interface Message {
   pronoun: ProunounType | null;
 }
 
+export interface ChatSettings {
+  withUser?: boolean;
+  withPronoun?: boolean;
+  wordLength: number;
+}
 export const chat = proxy<{
   messages: Message[];
   connected: boolean;
   ref: React.ElementRef<'div'> | null;
+  settings: ChatSettings;
 }>({
   messages: [],
   connected: false,
   ref: null,
+  settings: {
+    withPronoun: false,
+    withUser: false,
+    wordLength: 50,
+  },
 });
-
-interface ChatSettings {
-  withUser?: boolean;
-  withPronoun?: boolean;
-}
 
 interface InitializeChat {
   channelName: string;
@@ -55,7 +61,7 @@ interface InitializeChat {
 export const initalizeChat = async ({
   channelName,
   channelId,
-  settings = { withPronoun: false, withUser: false },
+  settings,
 }: InitializeChat) => {
   const { withPronoun, withUser } = settings;
 
@@ -115,6 +121,8 @@ export const initalizeChat = async ({
       pronoun: userPronoun,
     });
   });
+
+  chat.settings = settings;
 
   if (!chat.connected) {
     chat.messages = [];

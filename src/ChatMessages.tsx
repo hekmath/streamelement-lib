@@ -5,6 +5,7 @@ import { HolloweenChat } from './component/chats/holloween';
 
 export const ChatMessages = () => {
   const snap = useSnapshot(chat);
+  const { settings, messages } = snap;
 
   return (
     <Box
@@ -28,8 +29,12 @@ export const ChatMessages = () => {
         },
       }}
     >
-      {snap.messages.map((message, index) => (
-        <HolloweenChat key={index} {...(message as Message)} />
+      {messages.map((message, index) => (
+        <HolloweenChat
+          settings={settings}
+          key={index}
+          {...(message as Message)}
+        />
       ))}
     </Box>
   );

@@ -5,6 +5,8 @@ import { extendTheme } from '@chakra-ui/react';
 import { ChatMessages } from './ChatMessages';
 import { getTwitchUserDetails } from './utils';
 
+export const defaultChannelName = 'tsm_imperialhal';
+
 export const theme = extendTheme({
   components: {
     Divider: {
@@ -35,12 +37,12 @@ const App = () => {
 
     // DEBUG
     async function connectToStream() {
-      const twitchUser = await getTwitchUserDetails('sweetdreams');
+      const twitchUser = await getTwitchUserDetails(defaultChannelName);
 
       const { disconnect } = await initalizeChat({
         channelId: twitchUser ? twitchUser.id : '229334537',
-        channelName: 'sweetdreams',
-        settings: { withPronoun: true, withUser: false },
+        channelName: defaultChannelName,
+        settings: { withPronoun: true, withUser: false, wordLength: 50 },
       });
       socketRef.current = disconnect;
     }

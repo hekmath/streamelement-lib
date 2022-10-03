@@ -11,17 +11,24 @@ import {
   keyframes,
   usePrefersReducedMotion,
 } from '@chakra-ui/react';
-import { Message } from '../../store/chat';
+import { ChatSettings, Message } from '../../store/chat';
 import { pronounsList } from '../../store/pronouns';
 import { dividerUrl, starsUrl } from './assets';
+import { truncateWords } from '../../utils';
 
 const pulse = keyframes`
   from { transform: scale(0.9); }
   to { transform: scale(1.0);  }
 `;
 
-export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
-  ({ displayName, words, badges, user, pronoun }, ref) => {
+interface ChatProps extends Message {
+  settings: ChatSettings;
+}
+
+export const HolloweenChat = React.forwardRef<HTMLDivElement, ChatProps>(
+  ({ displayName, words, badges, pronoun, settings }, ref) => {
+    const { wordLength } = settings;
+
     const chatRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -37,6 +44,8 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
     const pulseAnimation = prefersReducedMotion
       ? undefined
       : `${pulse} infinite 3s linear`;
+
+    const { remainingWords, truncatedWords } = truncateWords(words, wordLength);
 
     return (
       <ScaleFade ref={ref} in>
@@ -98,7 +107,7 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
                   flexWrap="wrap"
                   gap="1"
                 >
-                  {words.map(({ emote, text }, index) =>
+                  {truncatedWords.map(({ emote, text }, index) =>
                     emote ? (
                       <Box
                         key={index}
@@ -120,7 +129,10 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, Message>(
                         textShadow="md"
                         color="rgb(188, 170, 142)"
                       >
-                        {text}
+                        {index === truncatedWords.length - 1 &&
+                        Boolean(remainingWords)
+                          ? `${text}...`
+                          : text}
                       </Text>
                     )
                   )}

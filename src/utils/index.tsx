@@ -1,3 +1,4 @@
+import { Word } from 'emotettv/dist/emotes/emotes.types';
 import { User } from '../store/chat';
 
 export async function getTwitchUserDetails(
@@ -17,4 +18,11 @@ export async function getTwitchUserDetails(
   }
 
   return chatUser;
+}
+
+export function truncateWords(words: Word[], limit: number = 30) {
+  const truncatedWords = words.slice(0, limit);
+  const remainingWords = words.length - truncatedWords.length;
+
+  return { truncatedWords, remainingWords };
 }
