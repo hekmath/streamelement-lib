@@ -21,6 +21,11 @@ const pulse = keyframes`
   to { transform: scale(1.0);  }
 `;
 
+const bright = keyframes`
+  from { filter: brightness(0.4); }
+  to { filter: brightness(1.8); }
+`;
+
 interface ChatProps extends Message {
   settings: ChatSettings;
 }
@@ -44,6 +49,10 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, ChatProps>(
     const pulseAnimation = prefersReducedMotion
       ? undefined
       : `${pulse} infinite 3s linear`;
+
+    const brightnessAnimation = prefersReducedMotion
+      ? undefined
+      : `${bright} infinite 3s linear`;
 
     const { remainingWords, truncatedWords } = truncateWords(words, wordLength);
 
@@ -142,18 +151,22 @@ export const HolloweenChat = React.forwardRef<HTMLDivElement, ChatProps>(
                   width="50px"
                   height="50px"
                   position="absolute"
+                  animation={brightnessAnimation}
                   top="50%"
                   left="-50px"
                   transform="translateY(-50%);"
+                  css={{ animationDirection: 'alternate' }}
                 />
                 <GridItem
                   backgroundImage={starsUrl}
                   width="50px"
                   height="50px"
+                  animation={brightnessAnimation}
                   position="absolute"
                   top="50%"
                   right="-50px"
                   transform="translateY(-50%);"
+                  css={{ animationDirection: 'alternate' }}
                 />
               </Box>
             </Flex>

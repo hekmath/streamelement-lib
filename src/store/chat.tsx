@@ -6,7 +6,7 @@ import type { BadgeIDs, BadgeVersion } from 'emotettv/dist/badges/badges.types';
 import type { EmotePositions, Word } from 'emotettv/dist/emotes/emotes.types';
 import React from 'react';
 import { ProunounType } from './pronouns';
-import { getTwitchUserDetails } from '../utils';
+import { getTwitchUserDetails, getTwitchUserPronouns } from '../utils';
 
 const BYPASS_USER = ['19264788']; // NightBot
 
@@ -87,10 +87,9 @@ export const initalizeChat = async ({
     let userPronoun: ProunounType | null = null;
 
     if (withPronoun) {
-      const pronounResponse = await fetch(
-        `https://pronouns.alejo.io/api/users/${tags['display-name']}`
+      const pronouns = await getTwitchUserPronouns(
+        tags['display-name'] as string
       );
-      const pronouns = await pronounResponse.json();
 
       if (pronouns.length > 0) {
         userPronoun = pronouns[0];
